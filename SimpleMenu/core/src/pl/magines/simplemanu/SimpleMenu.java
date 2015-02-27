@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * Stage and viewport means a camera and controls(stage -> InputProcessor) how to display on screen
  */
 
-public class SimpleManu extends ApplicationAdapter {
+public class SimpleMenu extends ApplicationAdapter {
 
     private Stage stage;
     private Table table;
