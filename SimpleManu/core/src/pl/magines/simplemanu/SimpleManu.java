@@ -2,20 +2,16 @@ package pl.magines.simplemanu;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
-import java.awt.Shape;
 
 /**
  * Stage and viewport means a camera and controls(stage -> InputProcessor) how to display on screen
@@ -25,8 +21,6 @@ public class SimpleManu extends ApplicationAdapter {
 
     private Stage stage;
     private Table table;
-    //For debug drawing
-    private ShapeRenderer shapeRenderer;
 
     //Skin
     private Skin skin;
@@ -40,24 +34,27 @@ public class SimpleManu extends ApplicationAdapter {
         Gdx.input.setInputProcessor(stage);
 
         //Add new skin
-        skin = new Skin();
-        skin.add("badlogic", new Texture("badlogic.jpg"));
-        Texture badlogic = skin.get("badlogic", Texture.class);
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        Label label = new Label("Welcome !!", skin);
+        TextField textField = new TextField("", skin);
+        Label addressLabel = new Label("Address", skin);
+        TextField addressField = new TextField("", skin);
+        TextButton button = new TextButton("Button1", skin);
+        TextButton button2 = new TextButton("Button2", skin);
 
         table = new Table();
         table.setFillParent(true);
-
-        TextButton textButton = new TextButton("Button1", skin);
-        table.add(textButton);
+        table.add(label);
+        table.add(textField);
+        table.row();
+        table.add(addressLabel);
+        table.add(addressField);
+        table.row();
+        table.add(button).width(200f).height(50f);
+        table.add(button2).width(200f).height(50f);
 
         stage.addActor(table);
-
-        shapeRenderer = new ShapeRenderer();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 1, 1, 1);
-        shapeRenderer.rect(10, 10 , 100, 100);
-        shapeRenderer.end();
 
 	}
 
@@ -69,8 +66,7 @@ public class SimpleManu extends ApplicationAdapter {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        table.drawDebug(shapeRenderer);
-//        table.setDebug(true);
+        table.setDebug(true);
 
 	}
 
@@ -98,6 +94,5 @@ public class SimpleManu extends ApplicationAdapter {
     @Override
     public void dispose() {
         stage.dispose();
-        shapeRenderer.dispose();
     }
 }
