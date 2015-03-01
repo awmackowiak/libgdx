@@ -8,7 +8,6 @@ public class MyAdvancedMenu extends Game {
     public void create() {
         Gdx.input.setCatchBackKey(true);
         this.setScreen(new MainScreen());
-
     }
 
     public void render() {

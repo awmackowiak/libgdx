@@ -5,26 +5,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-public class LevelScreen implements Screen {
+public class PlayScreen implements Screen {
 
     private Stage stage;
-    private ArrayList<TextButton> buttons = new ArrayList();
     private Table table;
-    private Skin skin;
+    private int level;
+
+    private Hero hero;
+
+    public PlayScreen(int level) {
+        this.level = level;
+    }
+
 
     @Override
     public void render(float delta) {
@@ -33,10 +33,10 @@ public class LevelScreen implements Screen {
         Gdx.input.setCatchBackKey(true);
 
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainScreen());
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelScreen());
         }
 
-//        table.debug();
+        table.debug();
 
         stage.act(delta);
         stage.draw();
@@ -52,34 +52,29 @@ public class LevelScreen implements Screen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        Label label = new Label("Select Level", skin);
+        hero = new Hero();
 
+        Table skills = new Table();
+        for(int i = 0; i < 4; i++) {
+            skills.add(
+                    new TextButton(Integer.toString(i),
+                    new Skin(Gdx.files.internal("uiskin.json")
+                    ))).height(100f).width(100f);
+        }
         table = new Table();
-        table.align(Align.top);
         table.setFillParent(true);
-        label.setFontScale(4f);
-
-        table.add(label).pad(50f).colspan(4);
+        table.setBounds(10,10,10,10);
+        table.add().colspan(4).expand();
         table.row();
-
-        for(int i=0; i < 12; i++) {
-            buttons.add(new LevelButton(i).createButton());
-        }
-        Iterator<TextButton> button = buttons.iterator();
-        int i = 0;
-        while (button.hasNext()) {
-            table.add(button.next()).pad(15f);
-            i++;
-            if(i % 4 == 0) {
-                table.row().pad(15f);
-            }
-            button.remove();
-        }
+        table.add(
+                new TextButton("<=", new Skin(Gdx.files.internal("uiskin.json"))),
+                new TextButton("=>", new Skin(Gdx.files.internal("uiskin.json")))
+        );
+        table.add(skills);
+        table.add(new TextButton("JUMP", new Skin(Gdx.files.internal("uiskin.json")))).size(100,100);
 
         stage.addActor(table);
-
     }
 
     @Override

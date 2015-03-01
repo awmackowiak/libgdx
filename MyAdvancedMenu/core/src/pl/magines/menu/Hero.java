@@ -2,11 +2,15 @@ package pl.magines.menu;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 
 public class Hero extends Actor {
 
     private Texture hero;
+
+    private Vector2 vector;
 
     private float heroX = 0f;
     private float heroY = 0f;

@@ -51,7 +51,7 @@ public class MainScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setCatchBackKey(true);
 
@@ -71,9 +71,10 @@ public class MainScreen implements Screen {
 
     @Override
     public void show() {
+        name.setFontScale(2f);
         table = new Table();
         table.setFillParent(true);
-        table.add(name);
+        table.add(name).padTop(15f).padBottom(15f);
         table.row();
         table.add(startButton).width(BUTTONWIDTH).height(BUTTONHEIGHT).pad(BUTTONPAD);
         table.row();
